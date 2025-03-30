@@ -1,26 +1,42 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <button @click="increment()">{{ count }}</button>
+  <button @click="a++">{{ a }}</button>
+  <button @click="b++">{{ b }}</button>
+  <p>{{ total }}</p>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue';
+import { useNumers } from './useNumbers';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  setup() {
+    const count = ref(0);
+    const increment = () => {
+      count.value++;
+    }
+
+    const { a, b, history, total } = useNumers(); 
+    
+    return {
+      count,
+      a, b,
+      total,
+      history,
+      increment,
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+p {
+  font-size: 40px;
+}
+
+button {
+  width: 100px;
+  height: 100px;
+  font-size: 40px;
 }
 </style>
