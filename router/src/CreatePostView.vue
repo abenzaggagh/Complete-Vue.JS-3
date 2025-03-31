@@ -26,6 +26,7 @@ export default {
 
         const submit = () => {
             const id = postStore.posts.length + 1;
+            
             postStore.addPost({
                 id: id,
                 title: newPost.title,
