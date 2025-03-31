@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { store } from './store';
+
 export default {
     props: {
         hashtag: {
@@ -10,10 +12,9 @@ export default {
             required: true,
         }
     },
-    emits: ['setHashtag'],
-    setup(props, context) {
+    setup(props) {
         const setHashtag = () => {
-            context.emit('setHashtag', props.hashtag)
+            store.setHashtag(props.hashtag);
         }
 
         return {

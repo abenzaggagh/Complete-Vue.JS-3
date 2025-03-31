@@ -1,6 +1,10 @@
 <template>
+  <div class="search">
+    <input :value="currentTag" @input="setHashtag" />
+  </div>
+  
   <div class="cards">
-    <CardComponent v-for="post in store.state.posts" :key="post.id">
+    <CardComponent v-for="post in filteredPosts" :key="post.id">
       <template v-slot:title>
         <div>{{ post.title }}</div>
       </template>
@@ -8,14 +12,14 @@
         <div>{{ post.content }}</div>
       </template>
       <template v-slot:description>
-        <ControlsComponent :post="post" @setHashtag="setHashtag" />
+        <ControlsComponent :post="post" />
       </template>
     </CardComponent>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { computed } from 'vue';
 import CardComponent from './CardComponent.vue';
 import ControlsComponent from './ControlsComponent.vue';
 import { store } from './store';
@@ -28,14 +32,15 @@ export default {
   },
 
   setup() {
-    const currentTag = ref(null);
-
-    const setHashtag = (hashtag) => {
-      currentTag.value = hashtag;
+    const setHashtag = ($event) => {
+      store.setHashtag($event.target.value)
     }
 
+    
+
     return {
-      store,
+      filteredPosts: computed(() => store.filteredPosts),
+      currentTag: computed(() => store.state.currentTag),
       setHashtag
     }
   }
@@ -43,8 +48,16 @@ export default {
 </script>
 
 <style>
-.cards {
+.cards, .search {
   display: flex;
   justify-content: center;
+}
+
+.search > input {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid grey;
+  min-width: 200px;
 }
 </style>
